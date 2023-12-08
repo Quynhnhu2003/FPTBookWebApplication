@@ -1,5 +1,7 @@
 using FPTBookWeb.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FPTBookWeb
 {
@@ -15,6 +17,12 @@ namespace FPTBookWeb
             //Adding DBContext Service
             builder.Services.AddDbContext<DbFptbookContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection")));
 
+            builder.Services.AddDefaultIdentity<User>().AddRoles<IdentityRole>().AddEntityFrameworkStores<DbFptbookContext>().AddDefaultUI();
+            builder.Services.AddRazorPages();
+            builder.Services.Configure<IdentityOptions>(option =>
+            {
+                option.Password.RequireNonAlphanumeric = false;
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -29,7 +37,8 @@ namespace FPTBookWeb
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.MapRazorPages();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace FPTBookWeb.Models;
 
-public partial class DbFptbookContext : DbContext
+public partial class DbFptbookContext : IdentityDbContext<User>
 {
     public DbFptbookContext()
     {
@@ -31,16 +32,16 @@ public partial class DbFptbookContext : DbContext
 
     public virtual DbSet<Publisher> Publishers { get; set; }
 
-    public virtual DbSet<Role> Roles { get; set; }
+    /*public virtual DbSet<Role> Roles { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<User> Users { get; set; }*/
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAPTOP-M2M74TDG\\SQLEXPRESS; Database=DbFPTBook; Trusted_Connection=True; TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb; Database=DbFPTBook; Trusted_Connection=True; TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Author>(entity =>
         {
             entity.HasKey(e => e.AuthorId).HasName("PK__Author__8E2731B95227E36E");
@@ -214,7 +215,7 @@ public partial class DbFptbookContext : DbContext
                 .HasColumnName("publisherPhone");
         });
 
-        modelBuilder.Entity<Role>(entity =>
+       /* modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.RoleId).HasName("PK__Roles__CD98462ADE13ABE6");
 
@@ -261,7 +262,7 @@ public partial class DbFptbookContext : DbContext
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_roleId");
-        });
+        });*/
 
         OnModelCreatingPartial(modelBuilder);
     }
