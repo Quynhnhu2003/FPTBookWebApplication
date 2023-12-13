@@ -17,12 +17,40 @@ namespace FPTBookWeb
             //Adding DBContext Service
             builder.Services.AddDbContext<DbFptbookContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection")));
 
-            builder.Services.AddDefaultIdentity<User>().AddRoles<IdentityRole>().AddEntityFrameworkStores<DbFptbookContext>().AddDefaultUI();
-            builder.Services.AddRazorPages();
+            builder.Services.AddDefaultIdentity<User>().AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<DbFptbookContext>().AddDefaultUI();
+            builder.Services.AddDistributedMemoryCache();
             builder.Services.Configure<IdentityOptions>(option =>
             {
-                option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequireNonAlphanumeric=false;
             });
+            /*      builder.Services.AddScoped<Cart>(sp => Cart.GetCart(sp));
+
+                  builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+                  builder.Services.AddRazorPages();
+
+                  builder.Services.AddSession(option =>
+                  {
+                      option.Cookie.HttpOnly = true;
+                      option.Cookie.IsEssential = true;
+                      *//*option.IdleTimeout = TimeSpan.FromSeconds(10);*//*
+                  });*/
+
+            builder.Services.AddScoped<Cart>(sp => Cart.GetCart(sp));
+
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            builder.Services.AddRazorPages();
+
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+
+            });
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -32,7 +60,7 @@ namespace FPTBookWeb
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

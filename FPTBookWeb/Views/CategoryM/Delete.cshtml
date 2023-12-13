@@ -1,0 +1,39 @@
+﻿@model FPTBookWeb.Models.Category
+
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<h3>Are you sure you want to delete <strong class="text-uppercase fst-italic"> @Html.DisplayFor(model => model.CategoryName)</strong>?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CatDetails)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CatDetails)
+        </dd>
+    </dl>
+
+    <dd class="col-4 mt-4">
+        <form class="d-flex flex-row" asp-action="Delete">
+            <a asp-action="Index" class="btn btn-back text-center"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            <input type="hidden" asp-for="CategoryId" />
+            <input type="submit" value="Delete" class="btn btn-outline col-2 btn-delete btn-sm" />
+
+        </form>
+    </dd>
+    
+    @* <form asp-action="Delete">
+        <input type="hidden" asp-for="CategoryId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form> *@
+</div>

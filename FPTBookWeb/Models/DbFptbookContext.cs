@@ -20,7 +20,7 @@ public partial class DbFptbookContext : IdentityDbContext<User>
 
     public virtual DbSet<Book> Books { get; set; }
 
-    public virtual DbSet<Cart> Carts { get; set; }
+    /*public virtual DbSet<Cart> Carts { get; set; }*/
 
     public virtual DbSet<CartItem> CartItems { get; set; }
 
@@ -28,7 +28,7 @@ public partial class DbFptbookContext : IdentityDbContext<User>
 
     public virtual DbSet<Order> Orders { get; set; }
 
-    public virtual DbSet<OrderItem> OrderItems { get; set; }
+    public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
     public virtual DbSet<Publisher> Publishers { get; set; }
 
@@ -37,24 +37,24 @@ public partial class DbFptbookContext : IdentityDbContext<User>
     public virtual DbSet<User> Users { get; set; }*/
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb; Database=DbFPTBook; Trusted_Connection=True; TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-6QHDM1R;Initial Catalog=DbFPTBook;User ID=sa;Password=123;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Author>(entity =>
         {
-            entity.HasKey(e => e.AuthorId).HasName("PK__Author__8E2731B95227E36E");
+            entity.HasKey(e => e.AuthorId).HasName("PK__Authors__70DAFC145BAB714D");
 
-            entity.ToTable("Author");
-
-            entity.Property(e => e.AuthorId).HasColumnName("authorId");
-            entity.Property(e => e.AuthorDescription)
-                .HasMaxLength(200)
-                .HasColumnName("authorDescription");
-            entity.Property(e => e.AuthorName)
-                .HasMaxLength(150)
-                .HasColumnName("authorName");
+            entity.Property(e => e.AuthorId).HasColumnName("AuthorID");
+            entity.Property(e => e.AuthorEmail)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.AuthorName).HasMaxLength(255);
+            entity.Property(e => e.AuthorPhoto)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.Birthdate).HasColumnType("date");
         });
 
         modelBuilder.Entity<Book>(entity =>
@@ -90,7 +90,7 @@ public partial class DbFptbookContext : IdentityDbContext<User>
             entity.Property(e => e.CategoryId).HasColumnName("categoryId");
             entity.Property(e => e.PublishedYear).HasColumnName("publishedYear");
             entity.Property(e => e.PublisherId).HasColumnName("publisherId");
-            entity.Property(e => e.UserId).HasColumnName("userId");
+            /*entity.Property(e => e.UserId).HasColumnName("userId");*/
 
             entity.HasOne(d => d.Author).WithMany(p => p.Books)
                 .HasForeignKey(d => d.AuthorId)
@@ -107,13 +107,13 @@ public partial class DbFptbookContext : IdentityDbContext<User>
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_publisherId");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Books)
+/*            entity.HasOne(d => d.User).WithMany(p => p.Books)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_userId");
+                .HasConstraintName("fk_userId");*/
         });
 
-        modelBuilder.Entity<Cart>(entity =>
+        /*modelBuilder.Entity<Cart>(entity =>
         {
             entity.HasKey(e => e.CartId).HasName("PK__Cart__415B03B88F84BCEC");
 
@@ -123,7 +123,7 @@ public partial class DbFptbookContext : IdentityDbContext<User>
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("cartId");
-        });
+        });*/
 
         modelBuilder.Entity<CartItem>(entity =>
         {
@@ -133,7 +133,7 @@ public partial class DbFptbookContext : IdentityDbContext<User>
 
             entity.Property(e => e.BookId).HasColumnName("bookId");
             entity.Property(e => e.CartId)
-                .HasMaxLength(10)
+                .HasMaxLength(450)
                 .IsFixedLength()
                 .HasColumnName("cartId");
 
@@ -142,10 +142,10 @@ public partial class DbFptbookContext : IdentityDbContext<User>
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_bookId");
 
-            entity.HasOne(d => d.Cart).WithMany(p => p.CartItems)
+            /*entity.HasOne(d => d.Cart).WithMany(p => p.CartItems)
                 .HasForeignKey(d => d.CartId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_cartId");
+                .OnDelete(DeleteBehavior.ClientSetNull) 
+                .HasConstraintName("fk_cartId");*/
         });
 
         modelBuilder.Entity<Category>(entity =>
@@ -162,35 +162,68 @@ public partial class DbFptbookContext : IdentityDbContext<User>
                 .HasColumnName("categoryName");
         });
 
+        /* modelBuilder.Entity<Order>(entity =>
+         {
+             entity.HasKey(e => e.OrderId).HasName("PK__Orders__0809335D2413CF33");
+
+             entity.Property(e => e.OrderId).HasColumnName("orderId");
+             entity.Property(e => e.OrderDate)
+                 .HasColumnType("datetime")
+                 .HasColumnName("orderDate");
+             entity.Property(e => e.OrderTotal).HasColumnName("orderTotal");
+         });
+
+         modelBuilder.Entity<OrderItem>(entity =>
+         {
+             entity.HasKey(e => e.Id).HasName("PK__OrderIte__3214EC07C3B643EE");
+
+             entity.ToTable("OrderItem");
+
+             entity.Property(e => e.BookId).HasColumnName("bookId");
+             entity.Property(e => e.OrderId).HasColumnName("orderId");
+
+             entity.HasOne(d => d.Book).WithMany(p => p.OrderItems)
+                 .HasForeignKey(d => d.BookId)
+                 .OnDelete(DeleteBehavior.ClientSetNull)
+                 .HasConstraintName("fk_bookId2");
+
+             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
+                 .HasForeignKey(d => d.OrderId)
+                 .OnDelete(DeleteBehavior.ClientSetNull)
+                 .HasConstraintName("fk_orderId");
+         });*/
+
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__0809335D2413CF33");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BAF11F631C8");
 
-            entity.Property(e => e.OrderId).HasColumnName("orderId");
+            entity.Property(e => e.OrderId).HasColumnName("OrderID");
+            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.OrderDate)
-                .HasColumnType("datetime")
-                .HasColumnName("orderDate");
-            entity.Property(e => e.OrderTotal).HasColumnName("orderTotal");
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(10, 2)");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.CustomerId)
+                .HasConstraintName("FK__Orders__Customer__5AEE82B9");
         });
 
-        modelBuilder.Entity<OrderItem>(entity =>
+        modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OrderIte__3214EC07C3B643EE");
+            entity.HasKey(e => e.OrderDetailId).HasName("PK__OrderDet__D3B9D30C432EFF02");
 
-            entity.ToTable("OrderItem");
+            entity.Property(e => e.OrderDetailId).HasColumnName("OrderDetailID");
+            entity.Property(e => e.BookId).HasColumnName("BookID");
+            entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
-            entity.Property(e => e.BookId).HasColumnName("bookId");
-            entity.Property(e => e.OrderId).HasColumnName("orderId");
-
-            entity.HasOne(d => d.Book).WithMany(p => p.OrderItems)
+            entity.HasOne(d => d.Book).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.BookId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_bookId2");
+                .HasConstraintName("FK__OrderDeta__BookI__5FB337D6");
 
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_orderId");
+                .HasConstraintName("FK__OrderDeta__Order__5EBF139D");
         });
 
         modelBuilder.Entity<Publisher>(entity =>
@@ -214,8 +247,8 @@ public partial class DbFptbookContext : IdentityDbContext<User>
                 .IsFixedLength()
                 .HasColumnName("publisherPhone");
         });
-
-       /* modelBuilder.Entity<Role>(entity =>
+/*
+        modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.RoleId).HasName("PK__Roles__CD98462ADE13ABE6");
 
@@ -262,8 +295,8 @@ public partial class DbFptbookContext : IdentityDbContext<User>
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_roleId");
-        });*/
-
+        });
+*/
         OnModelCreatingPartial(modelBuilder);
     }
 

@@ -15,5 +15,5 @@ public partial class CartItem
 
     public virtual Book Book { get; set; } = null!;
 
-    public virtual Cart Cart { get; set; } = null!;
+    /*public virtual Cart Cart { get; set; } = null!;*/
 }

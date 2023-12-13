@@ -1,0 +1,98 @@
+﻿@model IEnumerable<FPTBookWeb.Models.Book>
+@{
+    ViewData["Title"] = "Product List";
+
+    string HasImage(Book book)
+    {
+        if (book.BookImage1 != "" || book.BookImage2 != null || book.BookImage3 != null)
+        {
+            return "fa-solid fa-check";
+        }
+        else
+        {
+            return "fa-solid fa-x";
+        }
+    }
+}
+
+
+
+<h1 class="mt-5">BOOKS</h1>
+
+<div class="col-2 my-2">
+    <a asp-controller="Books" asp-action="Create" class="btn btn-create btn-outline"><i class="fa-solid fa-book-journal-whills"></i> Add New</a>
+</div>
+<table class="table table-hover table-responsive table-sm col-3 my-5 shadow p-3 mb-5 rounded">
+    <thead class="table-manage">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                Images
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Publisher)
+            </th>
+            <th>
+               Owner
+            </th>
+            <th>Edit</th>
+            <th>Details</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.AuthorName)
+                </td>
+                <td>
+                    <i class="@HasImage(item)"></i>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookPrice)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Publisher.PublisherName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.BookId" class="col-1 btn btn-outline btn-edit btn-sm">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.BookId" class="col-1 btn btn-detail btn-ouline btn-sm">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.BookId" class="col-1 btn btn-outline btn-delete btn-sm">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

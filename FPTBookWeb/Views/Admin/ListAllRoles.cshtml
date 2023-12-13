@@ -7,25 +7,36 @@
 
 <h1>All roles</h1>
 
-<a class="btn btn-primary mb-2" asp-action="AddRole"><i class="fa-solid fa-users"></i> Add role</a>
+<div class="col-2">
+    <a class="btn-outline btn btn-create mb-2" asp-action="AddRole"><i class="fa-solid fa-users"></i> Add role</a>
+</div>
 
 @if (Model.Any())
 {
-    <table class="table col-3">
-        <thead>
+    <table class="table table-hover table-responsive table-sm col-3 my-5 shadow p-3 mb-5 rounded">
+        <thead class="table-manage col-6">
             <tr>
-                <td><h5>Role</h5></td>
-                <td></td>
+                <td class="text-center ">
+                    <h3>Role</h3>
+                </td>
+                <td class="col-2 text-center">
+                    <h3>Edit</h3>
+                </td>
+                <td class="col-2 text-center">
+                    <h3>Delete</h3>
+                </td>
             </tr>
         </thead>
         @foreach (var role in Model)
         {
-            <tbody>
+            <tbody class="text-center">
                 <tr>
                     <td>@role.Name</td>
-                    <td class="text-center">
-                        <a asp-action="EditRole" asp-route-id="@role.Id" class="btn btn-primary btn-sm">Edit</a>
-                        <a asp-action="DeleteRole" asp-route-id="@role.Id" class="btn btn-danger btn-sm">Delete</a>
+                    <td>
+                        <a asp-action="EditRole" asp-route-id="@role.Id" class="btn btn-outline col-2 btn-edit btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+                    </td>
+                    <td>
+                        <a asp-action="DeleteRole" asp-route-id="@role.Id" class="btn btn-outline col-2 btn-delete btn-sm"><i class="fa-solid fa-trash"></i></a>
                     </td>
                 </tr>
             </tbody>

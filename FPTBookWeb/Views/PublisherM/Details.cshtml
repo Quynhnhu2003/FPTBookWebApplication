@@ -1,0 +1,41 @@
+﻿@model FPTBookWeb.Models.Publisher
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details <strong class="fst-italic">@Html.DisplayFor(model => model.PublisherName)</strong></h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2 mt-3">
+            @Html.DisplayNameFor(model => model.PublisherName)
+        </dt>
+        <dd class = "col-sm-10 mt-3">
+            @Html.DisplayFor(model => model.PublisherName)
+        </dd>
+        <dt class = "col-sm-2 mt-3">
+            @Html.DisplayNameFor(model => model.PublisherEmail)
+        </dt>
+        <dd class = "col-sm-10 mt-3">
+            @Html.DisplayFor(model => model.PublisherEmail)
+        </dd>
+        <dt class = "col-sm-2 mt-3">
+            @Html.DisplayNameFor(model => model.PublisherPhone)
+        </dt>
+        <dd class = "col-sm-10 mt-3">
+            @Html.DisplayFor(model => model.PublisherPhone)
+        </dd>
+        <dt class = "col-sm-2 mt-3">
+            @Html.DisplayNameFor(model => model.PublisherAddress)
+        </dt>
+        <dd class = "col-sm-10 mt-3">
+            @Html.DisplayFor(model => model.PublisherAddress)
+        </dd>
+    </dl>
+</div>
+<div class="col-4 d-flex flex-row">
+    <a asp-action="Index" class="btn btn-back text-center"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    <a class="col-1 btn btn-detail btn-ouline btn-sm" asp-action="Edit" asp-route-id="@Model?.PublisherId">Edit</a>
+</div>

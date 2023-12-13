@@ -1,0 +1,67 @@
+﻿body {
+    color: #65451F;
+}
+
+.right-section{
+    width:100%;
+}
+.right-section .title {
+    font-size: 50px;
+    font-weight: bold;
+    
+}
+
+.right-section .main-info span {
+    font-size: 20px;
+    /*color: #65451F;*/
+}
+.right-section .main-info span:after{
+    content:"-";
+    margin-left:5px;
+}
+
+.right-section .main-info span:last-child::after{
+    content:"";
+}
+
+.right-section .book-info {
+    border: 1px solid;
+    border-radius:10px;
+    padding:10px;
+    margin-top:10px;
+    display:flex;
+    gap:15px;
+    flex-flow:column;
+}
+.right-section .book-info .price {
+    width:100%;
+    display:flex;
+    flex-flow:row;
+    flex-wrap:nowrap;
+    gap:10px;
+}
+    .right-section .book-info .price .box {
+        flex: 1;
+        border: 1px solid;
+        border-radius: 6px;
+        padding: 4px 6px;
+        text-align: center;
+       /* color: #65451F;*/
+    }
+
+.right-section .book-info .description span{
+    font-size:30px;
+    border-bottom:1px solid;
+    margin-bottom: 10px;
+}
+
+.button-section {
+    display:flex;
+    flex-flow:row;
+    width:100%;
+    padding: 10px 0;
+}
+.button-section a{
+    flex:1;
+}
+

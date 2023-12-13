@@ -2,25 +2,33 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FPTBookWeb.Controllers
 {
-    [Authorize]
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+		private readonly DbFptbookContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> logger, DbFptbookContext context)
+		{
+			_logger = logger;
+			_context = context;
+		}
+
+		public IActionResult Index()
         {
-            _logger = logger;
-        }
+			var bookquantity = _context.Books
+	        .OrderByDescending(b => b.Quantity)
+	        .Take(3)
+	        .ToList();
+			return View(bookquantity);
+		}
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }

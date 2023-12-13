@@ -1,0 +1,96 @@
+﻿@model FPTBookWeb.Models.Book
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h3 class="my-5">Are you sure you want to delete <strong class="text-uppercase fst-italic">@Html.DisplayFor(model => model.BookTitle)</strong> book?</h3>
+<div>
+    <hr />
+    <dl class="row ms-5">
+        <div class="col-7 bg-light bg-gradient">
+            <div class="d-flex flex-row mt-3">
+                <dt class="col-3">
+                    @Html.DisplayNameFor(model => model.BookTitle)
+                </dt>
+                <dd class="col-6">
+                    @Html.DisplayFor(model => model.BookTitle)
+                </dd>
+            </div>
+            <div class="d-flex flex-row mt-3">
+                <dt class="col-3">
+                    Description
+                </dt>
+                <dd class="col-6">
+                    @Html.DisplayFor(model => model.BookDescription)
+                </dd>
+            </div>
+            <div class="d-flex flex-row mt-3">
+                <dt class="col-3">
+                    @Html.DisplayNameFor(model => model.PublishedYear)
+                </dt>
+                <dd class="col-10">
+                    @Html.DisplayFor(model => model.PublishedYear)
+                </dd>
+            </div>
+            <div class="d-flex flex-row mt-3">
+                <dt class="col-3">
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </dt>
+                <dd class="col-10">
+                    @Html.DisplayFor(model => model.Quantity)
+                </dd>
+            </div>
+            <div class="d-flex flex-row mt-3">
+                <dt class="col-3">
+                    @Html.DisplayNameFor(model => model.BookPages)
+                </dt>
+                <dd class="col-10">
+                    @Html.DisplayFor(model => model.BookPages)
+                </dd>
+            </div>
+            <div class="d-flex flex-row mt-3">
+                <dt class="col-3">
+                    @Html.DisplayNameFor(model => model.Author)
+                </dt>
+                <dd class="col-10">
+                    @Html.DisplayFor(model => model.Author.AuthorName)
+                </dd>
+            </div>
+            <div class="d-flex flex-row mt-3">
+                <dt class="col-3">
+                    @Html.DisplayNameFor(model => model.Category)
+                </dt>
+                <dd class="col-10">
+                    @Html.DisplayFor(model => model.Category.CategoryName)
+                </dd>
+            </div>
+            <div class="d-flex flex-row mt-3">
+                <dt class="col-3">
+                    @Html.DisplayNameFor(model => model.Publisher)
+                </dt>
+                <dd class="col-10">
+                    @Html.DisplayFor(model => model.Publisher.PublisherName)
+                </dd>
+            </div>
+            <div class="d-flex flex-row mt-3">
+                <dt class="col-3">
+                    Store Owner
+                </dt>
+                <dd class="col-10">
+                    @Html.DisplayFor(model => model.User.FullName)
+                </dd>
+            </div>
+        </div>
+        <div class="col-5">
+            <dd class="col-sm-10">
+                <img src="@Model.BookImage1" class="w-100" />
+            </dd>
+            <form class="d-flex flex-ro col-6 ms-4 mt-5" asp-action="Delete">
+                <a asp-action="Index" class="btn btn-back text-center"><i class="fa-solid fa-arrow-left"></i> Back</a>
+                <input type="hidden" asp-for="BookId" />
+                <input type="submit" value="Delete" class="btn btn-outline col-2 btn-delete btn-sm" />
+            </form> 
+        </div>
+    </dl>
+</div>

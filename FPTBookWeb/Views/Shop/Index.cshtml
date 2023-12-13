@@ -1,0 +1,106 @@
+﻿@model IEnumerable<FPTBookWeb.Models.Book>
+
+@{
+	ViewData["Title"] = "Shop";
+}
+
+<div id="fh5co-product">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+				<h2>Book Shop</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div>
+				<div class="category-right">
+					<div class="category-right-top-item">
+						<form asp-action="Index" method="get" id="sortForm">
+							<select name="sortOrder" id="sortOrder">
+								<option value="">Sort</option>
+								<option value="price">Price Asc</option>
+								<option value="price_desc">Price Desc</option>
+								<option value="title">Title Asc</option>
+								<option value="title_desc">Title Desc</option>
+							</select>
+							<li class="search">
+								<div class="input-group">
+									<input type="text" name="searchString" placeholder="Searching...">
+									<span class="input-group-btn">
+										<button class="btn btn-primary" type="button"><i class="icon-search"></i></button>
+									</span>
+								</div>
+							</li>
+						</form>
+						@if (!string.IsNullOrEmpty(TempData["NoResultMessage"]?.ToString()))
+						{
+							<p class="text-danger text-center fs-1 fw-bold font-monospace mt-5">
+								@TempData["NoResultMessage"]
+							</p>
+						}
+					</div>
+					<div class="row">
+						@foreach (var book in Model)
+						{
+							<div class="col-md-4 text-center">
+								<a class="a-cleanup" asp-controller="Shop" asp-action="Details" asp-route-id="@book.BookId">
+									<div class="product">
+										<div class="product-grid" style="background-image:url('@book.BookImage1');">
+											<div class="inner">
+												<p>
+													<a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@book.BookId" class="icon">
+														<i class="icon-shopping-cart"></i>
+													</a>
+													<a asp-controller="Shop" asp-action="Details" asp-route-id="@book.BookId" class="icon">
+														<i class="icon-eye"></i>
+													</a>
+												</p>
+											</div>
+										</div>
+										<div class="desc">
+											<h3><a href="cart.html">@book.BookTitle</a></h3>
+											<span class="price">@book.BookPrice.ToString("c")</span>
+										</div>
+									</div>
+								</a>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+@* 	<div class="pagination">
+		<li class="">
+			<a >«</a>
+		</li>
+		<li>
+			<a class="active" href="#">1</a>
+		</li>
+		<li>
+			<a href="#">2</a>
+		</li>
+		<li>
+			<a href="#">3</a>
+		</li>
+		<li>
+			<a href="#">4</a>
+		</li>
+		<li>
+			<a href="#">5</a>
+		</li>
+		<li>
+			<a href="#">»</a>
+		</li>
+	</div> *@
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$('#sortOrder').change(function () {
+			// Trigger form submission when the dropdown changes
+			$('#sortForm').submit();
+		});
+	});
+</script>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,13 +12,12 @@ public partial class User: IdentityUser
     [PersonalData]
     [AllowNull]
     [Column(TypeName = "nvarchar(100)")]
-    public string FirstName { get; set; }
+    public string FullName { get; set; }
 
-    [PersonalData]
-    [AllowNull]
-    [Column(TypeName = "nvarchar(100)")]
-    public string LastName { get; set; }
+    
+    
     public virtual ICollection<Book> Books { get; set; } = new List<Book>();
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     /* public int UserId { get; set; }
 
      public string UserEmail { get; set; } = null!;

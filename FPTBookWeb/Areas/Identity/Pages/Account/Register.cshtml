@@ -1,58 +1,59 @@
 ﻿@page
 @model RegisterModel
+
+@inject RoleManager<IdentityRole> roleManager
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Areas/Identity/Pages/_AuthLayout.cshtml";
 }
 
-
-
-
-
-<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+<form class="form-box register" id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
     <h2>Register</h2>
     <hr />
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-    <div class="row">
-        <div class="col-6">
-            <div class="form-floating mb-3">
-                <input asp-for="Input.FirstName" class="form-control" autocomplete="firstName" aria-required="true" placeholder="Alex" />
-                <label asp-for="Input.FirstName">First Name</label>
+    <div class="form-floating mb-3 input-box">
+        <input asp-for="Input.FullName" class="form-control" autocomplete="firstName" aria-required="true" placeholder="Alex" />
+        <label asp-for="Input.FullName">Full Name</label>
 
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LastName" class="form-control" autocomplete="lastName" aria-required="true" placeholder="Amstrong" />
-                <label asp-for="Input.LastName">Last Name</label>
-
-            </div>
-        </div>
     </div>
-    <div class="form-floating mb-3">
+    <div class="form-floating mb-3 input-box">
         <input asp-for="Input.PhoneNumber" class="form-control" placeholder="XXXXXXXXXX" type="number" />
         <label asp-for="Input.PhoneNumber">Phone Number</label>
     </div>
-    <div class="form-floating mb-3">
+    <div class="form-floating mb-3 input-box">
         <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
         <label asp-for="Input.Email">Email</label>
         <span asp-validation-for="Input.Email" class="text-danger"></span>
     </div>
-    <div class="form-floating mb-3">
+    <div class="form-floating mb-3 input-box">
         <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
         <label asp-for="Input.Password">Password</label>
         <span asp-validation-for="Input.Password" class="text-danger"></span>
     </div>
-    <div class="form-floating mb-3">
+    <div class="form-floating mb-3 input-box">
         <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
         <label asp-for="Input.ConfirmPassword">Confirm Password</label>
         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
     </div>
-    <select name="roles" title="Role">
-        <option value="Admin">Admin</option>
-        <option value="Store Owner">Store Owner</option>
-        <option value="Customer">Customer</option>
-    </select>
+    
+    <div class="mb-5 mt-3 col-4">
+        <label asp-for="Input.ConfirmPassword">Role</label>
+        <select name="roles" title="Role" class="select-role mt-4">
+            @if (roleManager.Roles.Count() == 0)
+            {
+                <></>
+            }
+            else
+            {
+                @foreach (IdentityRole role in roleManager.Roles)
+                {
+                    <option value="@role.Name">@role.Name</option>
+                }
+
+            }
+        </select>
+    </div>
+    
     <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
 </form>
 
