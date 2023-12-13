@@ -7,7 +7,7 @@
 <h1>Create Book</h1>
 <hr />
 <div class="row col-8">
-    <form asp-action="Create">
+    <form asp-action="Create" enctype="multipart/form-data" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="d-flex flex-row">
             <div class="form-group col-8 me-2">
@@ -29,10 +29,10 @@
         <div class="col-12 d-flex flex-row">
             <div class="form-group col-4 me-2">
                 <label asp-for="BookImage1" class="control-label"></label>
-                <input asp-for="BookImage1" class="form-control input-data" />
-                <span asp-validation-for="BookImage1" class="text-danger"></span>
+                <input class="form-control input-data" type="file" asp-for="BookImage1" name="file" />
+                <span asp-validation-for="BookImage1" class="text-danger">@ViewBag.error</span>
             </div>
-            <div class="form-group col-4 me-2">
+            @* <div class="form-group col-4 me-2">
                 <label asp-for="BookImage2" class="control-label"></label>
                 <input asp-for="BookImage2" class="form-control input-data" />
                 <span asp-validation-for="BookImage2" class="text-danger"></span>
@@ -41,7 +41,7 @@
                 <label asp-for="BookImage3" class="control-label"></label>
                 <input asp-for="BookImage3" class="form-control input-data" />
                 <span asp-validation-for="BookImage3" class="text-danger"></span>
-            </div>
+            </div> *@
         </div>
         <div class="d-flex flex-row col-12">
             <div class="form-group col-4 me-2">
@@ -73,6 +73,10 @@
                 <label asp-for="AuthorId" class="control-label"></label>
                 <select asp-for="AuthorId" class="form-control input-data" asp-items="ViewBag.AuthorId"></select>
             </div>
+            @* <div class="form-group col-4 me-2">
+                <label asp-for="AuthorId" class="control-label"></label>
+                <input class="form-control input-data" type="file" asp-for="BookImage1" name="file" />
+            </div> *@
         </div>
             @* <div class="form-group col-4 me-2">
                 <label asp-for="UserId" class="control-label"></label>
@@ -88,4 +92,21 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+
+        fileImage.onchange = evt => {
+
+            const [file] = fileImage.files
+
+            if (file) {
+
+                preview.src = URL.createObjectURL(file);
+
+                $("#preview").removeClass("hidden");
+
+            }
+
+        }
+
+    </script>
 }

@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using FPTBookWeb.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 namespace FPTBookWeb.Controllers
 {
@@ -15,12 +17,14 @@ namespace FPTBookWeb.Controllers
     {
         private readonly DbFptbookContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
 
-        public BooksController(DbFptbookContext context, UserManager<User> userManager)
+        public BooksController(DbFptbookContext context, UserManager<User> userManager,IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _userManager = userManager;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Books
@@ -71,17 +75,30 @@ namespace FPTBookWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,BookTitle,BookPrice,BookDescription,BookImage1,BookImage2,BookImage3,PublishedYear,Quantity,BookPages,PublisherId,CategoryId,AuthorId")] Book book, ClaimsPrincipal user)
+        public async Task<IActionResult> Create([Bind("BookId,BookTitle,BookPrice,BookDescription,BookImage1,BookImage2,BookImage3,PublishedYear,Quantity,BookPages,PublisherId,CategoryId,AuthorId")] Book book, ClaimsPrincipal user,IFormFile file)
         {
 
             /*var id = user.Id;*/
-
             if (book != null && !BookNameExists(book.BookTitle))
             {
-
+                string uniqueFileName = null;  //to contain the filename
+                
+                if (file != null )  //handle iformfile
+                {
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
+                    uniqueFileName = file.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                }
+               
                 var userId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
 
                 book.UserId = userId;
+                /*var test = file.Name;*/
+                book.BookImage1 = "images/"+uniqueFileName;
                 _context.Books.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -120,7 +137,7 @@ namespace FPTBookWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookId,BookTitle,BookPrice,BookDescription,BookImage1,BookImage2,BookImage3,PublishedYear,Quantity,BookPages,PublisherId,CategoryId,AuthorId")] Book book, ClaimsPrincipal user)
+        public async Task<IActionResult> Edit(int id, [Bind("BookId,BookTitle,BookPrice,BookDescription,BookImage1,BookImage2,BookImage3,PublishedYear,Quantity,BookPages,PublisherId,CategoryId,AuthorId")] Book book, ClaimsPrincipal user, IFormFile file)
         {
             if (id != book.BookId)
             {
@@ -131,6 +148,19 @@ namespace FPTBookWeb.Controllers
             {
                 try
                 {
+                    string uniqueFileName = null;  //to contain the filename
+
+                    if (file != null)  //handle iformfile
+                    {
+                        string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
+                        uniqueFileName = file.FileName;
+                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+                    book.BookImage1 = "images/" + uniqueFileName;
+                    }
                     var userId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
 
                     book.UserId = userId;

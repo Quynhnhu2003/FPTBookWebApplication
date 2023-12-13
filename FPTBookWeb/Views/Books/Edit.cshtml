@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="BookId" />
             <div class="col-12 d-flex flex-row">
@@ -30,12 +30,13 @@
                 <span asp-validation-for="BookDescription" class="text-danger"></span>
             </div>
             <div class="col-12 d-flex flex-row">
+                @* chua biet lam commend trc *@
                 <div class="form-group col-4 me-2">
                     <label asp-for="BookImage1" class="control-label"></label>
-                    <input asp-for="BookImage1" class="form-control input-data" />
+                    <input class="form-control input-data" type="file" asp-for="BookImage1" name="file"/>
                     <span asp-validation-for="BookImage1" class="text-danger"></span>
                 </div>
-                <div class="form-group col-4 me-2">
+                @* <div class="form-group col-4 me-2">
                     <label asp-for="BookImage2" class="control-label"></label>
                     <input asp-for="BookImage2" class="form-control input-data" />
                     <span asp-validation-for="BookImage2" class="text-danger"></span>
@@ -44,7 +45,7 @@
                     <label asp-for="BookImage3" class="control-label"></label>
                     <input asp-for="BookImage3" class="form-control input-data" />
                     <span asp-validation-for="BookImage3" class="text-danger"></span>
-                </div>
+                </div> *@
             </div>
             <div class="col-12 d-flex flex-row">
                 <div class="form-group col-1 me-2">
