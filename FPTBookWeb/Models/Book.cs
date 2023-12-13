@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace FPTBookWeb.Models;
@@ -31,7 +32,7 @@ public partial class Book
 
     public int AuthorId { get; set; }
 
-    public int UserId { get; set; }
+    public string? UserId { get; set; }
 
     public virtual Author Author { get; set; } = null!;
 
