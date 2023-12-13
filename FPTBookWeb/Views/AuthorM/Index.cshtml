@@ -1,0 +1,59 @@
+﻿@model IEnumerable<FPTBookWeb.Models.Author>
+
+@{
+    ViewData["Title"] = "Author List";
+}
+
+<h1 class="mt-5">AUTHOR</h1>
+
+<div class="col-2 my-2">
+    <a asp-action="Create" class="btn btn-create btn-outline"><i class="fa-solid fa-user-pen"></i> Add New</a>
+</div>
+<table class="table table-hover table-responsive table-sm col-3 my-5 shadow p-3 mb-5 rounded">
+    <thead class="table-manage">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AuthorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuthorEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuthorPhoto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthdate)
+            </th>
+            <th>Edit</th>
+            <th>Details</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorPhoto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Birthdate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AuthorId" class="col-1 btn btn-outline btn-edit btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.AuthorId" class="col-1 btn btn-detail btn-ouline btn-sm"><i class="fa-solid fa-circle-info"></i></a>
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.AuthorId" class="col-1 btn btn-outline btn-delete btn-sm"><i class="fa-solid fa-trash-can"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

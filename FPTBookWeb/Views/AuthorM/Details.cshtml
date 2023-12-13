@@ -1,0 +1,45 @@
+﻿@model FPTBookWeb.Models.Author
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details information about author <strong class="fst-italic">@Html.DisplayFor(model => model.AuthorName)</strong></h1>
+
+<div class="my-4">
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2 mt-3">
+            @Html.DisplayNameFor(model => model.AuthorName)
+        </dt>
+        <dd class = "col-sm-10 mt-3">
+            @Html.DisplayFor(model => model.AuthorName)
+        </dd>
+        <dt class = "col-sm-2 mt-3">
+            @Html.DisplayNameFor(model => model.AuthorEmail)
+        </dt>
+        <dd class = "col-sm-10 mt-3">
+            @Html.DisplayFor(model => model.AuthorEmail)
+        </dd>
+        <dt class = "col-sm-2 mt-3">
+            @Html.DisplayNameFor(model => model.AuthorPhoto)
+        </dt>
+        <dd class = "col-sm-10 mt-3">
+            @Html.DisplayFor(model => model.AuthorPhoto)
+        </dd>
+        <dt class = "col-sm-2 mt-3">
+            @Html.DisplayNameFor(model => model.Birthdate)
+        </dt>
+        <dd class = "col-sm-10 mt-3">
+            @Html.DisplayFor(model => model.Birthdate)
+        </dd>
+    </dl>
+</div>
+<div class="col-6 d-flex flex-row">
+    <div class="col-3">
+        <a asp-action="Index" class="btn btn-back text-center"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    </div>
+    <div class="form-group col-3">
+        <input type="submit" value="Edit" class="col-4 btn btn-detail btn-ouline btn-sm" />
+    </div>
+</div>

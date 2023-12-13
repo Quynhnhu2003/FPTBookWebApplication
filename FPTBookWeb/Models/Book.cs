@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace FPTBookWeb.Models;
 
@@ -32,7 +34,7 @@ public partial class Book
 
     public int AuthorId { get; set; }
 
-    public string? UserId { get; set; }
+    public string UserId { get; set; }
 
     public virtual Author Author { get; set; } = null!;
 
@@ -40,7 +42,7 @@ public partial class Book
 
     public virtual Category Category { get; set; } = null!;
 
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual Publisher Publisher { get; set; } = null!;
 

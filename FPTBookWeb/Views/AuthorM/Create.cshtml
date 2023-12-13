@@ -1,0 +1,46 @@
+﻿@model FPTBookWeb.Models.Author
+
+@{
+    ViewData["Title"] = "Add New Author";
+}
+
+<h1>Add Author</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AuthorName" class="control-label"></label>
+                <input asp-for="AuthorName" class="form-control input-data" />
+                <span asp-validation-for="AuthorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuthorEmail" class="control-label"></label>
+                <input asp-for="AuthorEmail" class="form-control input-data" />
+                <span asp-validation-for="AuthorEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuthorPhoto" class="control-label"></label>
+                <input asp-for="AuthorPhoto" class="form-control input-data" />
+                <span asp-validation-for="AuthorPhoto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Birthdate" class="control-label"></label>
+                <input asp-for="Birthdate" class="form-control input-data" />
+                <span asp-validation-for="Birthdate" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex flex-row">
+                <div>
+                    <a asp-action="Index" class="btn btn-back text-center"><i class="fa-solid fa-angles-left"></i> Back</a>
+                </div>
+                <input type="submit" value="Add" class="btn-outline btn btn-create mb-2 col-2 fs-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

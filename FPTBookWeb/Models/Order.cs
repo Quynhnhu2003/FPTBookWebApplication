@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 
 namespace FPTBookWeb.Models;
@@ -7,9 +8,13 @@ public partial class Order
 {
     public int OrderId { get; set; }
 
-    public int OrderTotal { get; set; }
+    public string? CustomerId { get; set; }
 
-    public DateTime OrderDate { get; set; }
+    public DateTime? OrderDate { get; set; }
 
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public decimal? TotalAmount { get; set; }
+
+    public virtual User? User { get; set; }
+
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

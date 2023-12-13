@@ -1,0 +1,66 @@
+﻿@model IEnumerable<FPTBookWeb.Models.Publisher>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Publisher</h1>
+
+<p class="col-2 my-2">
+    <a asp-action="Create" class="btn btn-create btn-outline"><i class="fa-solid fa-building"></i> Create New</a>
+</p>
+<table class="table table-hover table-responsive table-sm col-3 my-5 shadow p-3 mb-5 rounded">
+    <thead class="table-manage">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PublisherName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublisherEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublisherPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublisherAddress)
+            </th>
+            <th>Edit</th>
+            <th>Details</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublisherName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublisherEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublisherPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublisherAddress)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.PublisherId" class="col-1 btn btn-outline btn-edit btn-sm">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+            </td>
+            <td>
+                    <a asp-action="Details" asp-route-id="@item.PublisherId" class="col-1 btn btn-detail btn-ouline btn-sm">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </a>
+
+            </td>
+            <td>
+                    <a asp-action="Delete" asp-route-id="@item.PublisherId" class="col-1 btn btn-outline btn-delete btn-sm">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

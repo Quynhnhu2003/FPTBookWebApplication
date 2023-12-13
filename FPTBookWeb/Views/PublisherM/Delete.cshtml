@@ -1,0 +1,42 @@
+﻿@model FPTBookWeb.Models.Publisher
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h3>Are you sure you want to delete  <strong class="text-uppercase fst-italic">@Html.DisplayFor(model => model.PublisherName)</strong>?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PublisherName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PublisherName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PublisherEmail)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PublisherEmail)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PublisherPhone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PublisherPhone)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PublisherAddress)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PublisherAddress)
+        </dd>
+    </dl>
+
+    <form class="d-flex flex-ro col-4 mt-5" asp-action="Delete">
+        <a asp-action="Index" class="btn btn-back text-center"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        <input type="hidden" asp-for="PublisherId" />
+        <input type="submit" value="Delete" class="btn btn-outline col-2 btn-delete btn-sm" />
+    </form>
+</div>

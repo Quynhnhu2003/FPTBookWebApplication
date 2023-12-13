@@ -18,9 +18,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace FPTBookWeb.Areas.Identity.Pages.Account
 {
@@ -76,13 +74,11 @@ namespace FPTBookWeb.Areas.Identity.Pages.Account
         public class InputModel
         {
             [DataType(DataType.Text)]
-            [Display(Name = "FirstName")]
-            public string FirstName { get; set; }
+            [Display(Name = "FullName")]
+            public string FullName { get; set; }
 
 
-            [DataType(DataType.Text)]
-            [Display(Name = "LastName")]
-            public string LastName { get; set; }
+           /* public string LastName { get; set; }*/
 
             [DataType(DataType.PhoneNumber)]
             [Display(Name = "PhoneNumber")]
@@ -133,29 +129,28 @@ namespace FPTBookWeb.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var selectRole = Request.Form["roles"];
-                var isExistRole = _roleManager.RoleExistsAsync(selectRole);
-                
+                var isExistRole = await _roleManager.RoleExistsAsync(selectRole);
+               
                 var user = CreateUser();
-                user.FirstName = Input.FirstName;
-                user.LastName = Input.LastName;
+                user.FullName = Input.FullName;
+                
                 user.PhoneNumber = Input.PhoneNumber;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, Input.Password); ;
-                if (await isExistRole)
-                {
-                    
-                    await _userManager.AddToRoleAsync(user, selectRole);
-                   
-                }
-               
+                var result = await _userManager.CreateAsync(user, Input.Password);
                 
+
+				
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
-                    var userId = await _userManager.GetUserIdAsync(user);
+                    if (isExistRole)
+                    {
+                        var userDb = _userManager.Users.First(u=>u.UserName == Input.Email);
+                        await _userManager.AddToRoleAsync(userDb, selectRole);
+                    }
+                   /* var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
@@ -173,9 +168,9 @@ namespace FPTBookWeb.Areas.Identity.Pages.Account
                     }
                     else
                     {
+                    }*/
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
-                    }
                 }
                 foreach (var error in result.Errors)
                 {

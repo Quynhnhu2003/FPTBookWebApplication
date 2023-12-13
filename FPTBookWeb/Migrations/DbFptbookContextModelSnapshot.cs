@@ -27,26 +27,32 @@ namespace FPTBookWeb.Migrations
                     b.Property<int>("AuthorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("authorId");
+                        .HasColumnName("AuthorID");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuthorId"));
 
-                    b.Property<string>("AuthorDescription")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
-                        .HasColumnName("authorDescription");
+                    b.Property<string>("AuthorEmail")
+                        .HasMaxLength(30)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(30)");
 
                     b.Property<string>("AuthorName")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)")
-                        .HasColumnName("authorName");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("AuthorPhoto")
+                        .HasMaxLength(30)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<DateTime?>("Birthdate")
+                        .HasColumnType("date");
 
                     b.HasKey("AuthorId")
-                        .HasName("PK__Author__8E2731B95227E36E");
+                        .HasName("PK__Authors__70DAFC145BAB714D");
 
-                    b.ToTable("Author", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("FPTBookWeb.Models.Book", b =>
@@ -117,8 +123,7 @@ namespace FPTBookWeb.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("userId");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("BookId")
                         .HasName("PK__Book__8BE5A10D18DEB8B8");
@@ -137,20 +142,6 @@ namespace FPTBookWeb.Migrations
                     b.ToTable("Book", (string)null);
                 });
 
-            modelBuilder.Entity("FPTBookWeb.Models.Cart", b =>
-                {
-                    b.Property<string>("CartId")
-                        .HasMaxLength(10)
-                        .HasColumnType("nchar(10)")
-                        .HasColumnName("cartId")
-                        .IsFixedLength();
-
-                    b.HasKey("CartId")
-                        .HasName("PK__Cart__415B03B88F84BCEC");
-
-                    b.ToTable("Cart", (string)null);
-                });
-
             modelBuilder.Entity("FPTBookWeb.Models.CartItem", b =>
                 {
                     b.Property<int>("Id")
@@ -165,8 +156,8 @@ namespace FPTBookWeb.Migrations
 
                     b.Property<string>("CartId")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nchar(10)")
+                        .HasMaxLength(450)
+                        .HasColumnType("nchar(450)")
                         .HasColumnName("cartId")
                         .IsFixedLength();
 
@@ -177,8 +168,6 @@ namespace FPTBookWeb.Migrations
                         .HasName("PK__CartItem__3214EC07B99AA8F9");
 
                     b.HasIndex("BookId");
-
-                    b.HasIndex("CartId");
 
                     b.ToTable("CartItem", (string)null);
                 });
@@ -191,6 +180,9 @@ namespace FPTBookWeb.Migrations
                         .HasColumnName("categoryId");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+
+                    b.Property<string>("CatDetails")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
@@ -212,54 +204,58 @@ namespace FPTBookWeb.Migrations
                     b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("orderId");
+                        .HasColumnName("OrderID");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime")
-                        .HasColumnName("orderDate");
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("CustomerID");
 
-                    b.Property<int>("OrderTotal")
-                        .HasColumnType("int")
-                        .HasColumnName("orderTotal");
+                    b.Property<DateTime?>("OrderDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("(getdate())");
+
+                    b.Property<decimal?>("TotalAmount")
+                        .HasColumnType("decimal(10, 2)");
 
                     b.HasKey("OrderId")
-                        .HasName("PK__Orders__0809335D2413CF33");
+                        .HasName("PK__Orders__C3905BAF11F631C8");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("FPTBookWeb.Models.OrderItem", b =>
+            modelBuilder.Entity("FPTBookWeb.Models.OrderDetail", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("OrderDetailId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookId")
                         .HasColumnType("int")
-                        .HasColumnName("bookId");
+                        .HasColumnName("OrderDetailID");
 
-                    b.Property<int>("OrderId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailId"));
+
+                    b.Property<int?>("BookId")
                         .HasColumnType("int")
-                        .HasColumnName("orderId");
+                        .HasColumnName("BookID");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int")
+                        .HasColumnName("OrderID");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("Id")
-                        .HasName("PK__OrderIte__3214EC07C3B643EE");
+                    b.HasKey("OrderDetailId")
+                        .HasName("PK__OrderDet__D3B9D30C432EFF02");
 
                     b.HasIndex("BookId");
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItem", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("FPTBookWeb.Models.Publisher", b =>
@@ -319,11 +315,7 @@ namespace FPTBookWeb.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("LastName")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
@@ -533,8 +525,8 @@ namespace FPTBookWeb.Migrations
                     b.HasOne("FPTBookWeb.Models.User", "User")
                         .WithMany("Books")
                         .HasForeignKey("UserId")
-                        .IsRequired()
-                        .HasConstraintName("fk_userId");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Author");
 
@@ -553,30 +545,30 @@ namespace FPTBookWeb.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_bookId");
 
-                    b.HasOne("FPTBookWeb.Models.Cart", "Cart")
-                        .WithMany("CartItems")
-                        .HasForeignKey("CartId")
-                        .IsRequired()
-                        .HasConstraintName("fk_cartId");
-
                     b.Navigation("Book");
-
-                    b.Navigation("Cart");
                 });
 
-            modelBuilder.Entity("FPTBookWeb.Models.OrderItem", b =>
+            modelBuilder.Entity("FPTBookWeb.Models.Order", b =>
+                {
+                    b.HasOne("FPTBookWeb.Models.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .HasConstraintName("FK__Orders__Customer__5AEE82B9");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FPTBookWeb.Models.OrderDetail", b =>
                 {
                     b.HasOne("FPTBookWeb.Models.Book", "Book")
-                        .WithMany("OrderItems")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("BookId")
-                        .IsRequired()
-                        .HasConstraintName("fk_bookId2");
+                        .HasConstraintName("FK__OrderDeta__BookI__5FB337D6");
 
                     b.HasOne("FPTBookWeb.Models.Order", "Order")
-                        .WithMany("OrderItems")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
-                        .IsRequired()
-                        .HasConstraintName("fk_orderId");
+                        .HasConstraintName("FK__OrderDeta__Order__5EBF139D");
 
                     b.Navigation("Book");
 
@@ -643,12 +635,7 @@ namespace FPTBookWeb.Migrations
                 {
                     b.Navigation("CartItems");
 
-                    b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("FPTBookWeb.Models.Cart", b =>
-                {
-                    b.Navigation("CartItems");
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("FPTBookWeb.Models.Category", b =>
@@ -658,7 +645,7 @@ namespace FPTBookWeb.Migrations
 
             modelBuilder.Entity("FPTBookWeb.Models.Order", b =>
                 {
-                    b.Navigation("OrderItems");
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("FPTBookWeb.Models.Publisher", b =>
@@ -669,6 +656,8 @@ namespace FPTBookWeb.Migrations
             modelBuilder.Entity("FPTBookWeb.Models.User", b =>
                 {
                     b.Navigation("Books");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<FPTBookWeb.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="btn btn-create btn-outline">Create New</a>
+</p>
+<table class="table table-hover table-responsive table-sm col-3 my-5 shadow p-3 mb-5 rounded">
+    <thead class="table-manage">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                Order Date
+            </th>
+            <th>
+                Customer
+            </th>
+            <th>Edit</th>
+            <th>Details</th>
+            <th>Delete</th>
+        </tr>
+    </thea>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderId)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.BookTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.CustomerId)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.OrderDetailId" class="col-1 btn btn-outline btn-edit btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+            </td>
+            <td>
+                    <a asp-action="Details" asp-route-id="@item.OrderDetailId" class="col-1 btn btn-detail btn-ouline btn-sm"><i class="fa-solid fa-circle-info"></i></a>
+            </td>
+            <td>
+                    <a asp-action="Delete" asp-route-id="@item.OrderDetailId" class="col-1 btn btn-outline btn-delete btn-sm"><i class="fa-solid fa-trash-can"></i></a>
+            </td>
+    </tr>
+}
+    </tbody>
+</table>

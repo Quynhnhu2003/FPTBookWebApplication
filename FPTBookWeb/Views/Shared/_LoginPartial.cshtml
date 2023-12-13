@@ -4,16 +4,86 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-<ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-    </li>
-    <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
-        </form>
-    </li>
-}
-</ul>
+
+<div class="col-md-6 col-xs-6 text-center menu-1">
+    <ul>
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="CategoryM" asp-action="Index">Category</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="AuthorM" asp-action="Index">Author</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="PublisherM" asp-action="Index">Publisher</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ListAllRoles">User</a>
+            </li>
+        }
+        else if (User.IsInRole("Store Owner"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            <li>
+                <a asp-area="" asp-controller="Books" asp-action="Index">Books</a>
+            </li>
+            <li><a asp-area="" asp-controller="OrderDetails" asp-action="Index">Orders</a></li>
+        }
+        else
+        {
+            <li>
+                <a asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
+            </li>
+            <li>
+                <a asp-area="" asp-controller="Home" asp-action="About">About</a>
+            </li>
+        }
+    </ul>
+</div>
+<div class="col-md-4 col-xs-6 text-right hidden-xs menu-2">
+    <ul>
+        @if (SignInManager.IsSignedIn(User))
+        {
+
+            <li class="nav-item">
+                <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="Cart" asp-action="Index" class="cart">
+                    <span>
+                        <i class="icon-shopping-cart"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logout" type="submit" value="Logout" class="nav-link btn btn-link text-dark border-0">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </form>
+            </li>
+        }
+        else
+        { 
+            <li class="shopping-cart">
+                <a asp-controller="Cart" asp-action="Index" class="cart">
+                    <span>
+                        <i class="icon-shopping-cart"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="has-dropdown">
+                <a href="/Identity/Account/Login" class="link-login">
+                    <i class="fa fa-fw fa-user"></i>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+    
