@@ -1,5 +1,5 @@
 ﻿using FPTBookWeb.Models;
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookWeb.Controllers
@@ -8,11 +8,13 @@ namespace BookWeb.Controllers
     {
         private readonly DbFptbookContext _context;
         private readonly Cart _cart;
+        private readonly UserManager<User> _userManager;
 
-        public OrderController(DbFptbookContext context, Cart cart)
+        public OrderController(DbFptbookContext context, Cart cart, UserManager<User> userManager)
         {
             _cart = cart;
             _context = context;
+            _userManager = userManager;
         }
         public IActionResult Checkout()
         {
@@ -20,11 +22,13 @@ namespace BookWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Checkout(Order order)
+        public async Task<IActionResult> Checkout(Order order)
         {
             var cartItems = _cart.GetAllCartItems();
             _cart.CartItems = cartItems;
-
+            var userId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
+            order.CustomerId = userId;
+            
             if (_cart.CartItems.Count == 0)
             {
                 ModelState.AddModelError("", "Cart is empty, please choose one of all book add to cart!");
@@ -44,7 +48,7 @@ namespace BookWeb.Controllers
         {
             return View(order);
         }
-        public void CreateOrder(Order order)
+        public  void CreateOrder(Order order)
         {
             order.OrderDate = DateTime.Now;
 
@@ -57,8 +61,9 @@ namespace BookWeb.Controllers
                     Quantity = item.Quantity,
                     BookId = item.Book.BookId,
                     OrderId = order.OrderId,
+                    UserId = order.CustomerId
                 };
-
+                
                 order.OrderDetails.Add(orderItem);
             }
 

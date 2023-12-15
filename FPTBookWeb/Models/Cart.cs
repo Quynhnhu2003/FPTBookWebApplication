@@ -49,7 +49,7 @@ namespace FPTBookWeb.Models
                 {
                     Book = book,
                     Quantity = quantity,
-                    CartId = Id
+                    CartId = Id,
                 };
 
                 _context.CartItems.Add(cartItem);

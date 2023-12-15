@@ -5,7 +5,7 @@
 @inject UserManager<User> UserManager
 
 
-<div class="col-md-6 col-xs-6 text-center menu-1">
+<div class="col-md-6 col-xs-6 text-center menu-1" style="white-space:nowrap">
     <ul>
         @if (User.IsInRole("Admin"))
         {
@@ -20,6 +20,12 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="PublisherM" asp-action="Index">Publisher</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ManageStoreOwner">Store Owner</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ManageCustomer">Customer</a>
             </li>
             @* <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ListAllRoles">Role</a>

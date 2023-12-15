@@ -37,7 +37,7 @@ public partial class DbFptbookContext : IdentityDbContext<User>
     public virtual DbSet<User> Users { get; set; }*/
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-6QHDM1R;Initial Catalog=DbFPTBook;User ID=sa;Password=123;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=DbFPTBook;Trusted_Connection=True;MultipleActiveResultSets=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) //hỗ trợ build bảng theo design
     {
@@ -204,7 +204,7 @@ public partial class DbFptbookContext : IdentityDbContext<User>
                 .HasColumnType("datetime");
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(10, 2)");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Orders)
+            entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)
                 .HasConstraintName("FK__Orders__Customer__5AEE82B9");
         });

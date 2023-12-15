@@ -14,7 +14,7 @@ public partial class Order
 
     public decimal? TotalAmount { get; set; }
 
-    public virtual User? User { get; set; }
+    public virtual User? Customer { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

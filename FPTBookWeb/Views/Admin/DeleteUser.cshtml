@@ -1,0 +1,23 @@
+﻿@model FPTBookWeb.ViewModels.EditUser
+@using Microsoft.AspNetCore.Identity
+﻿
+
+<h3>Are you sure to delete<strong class="text-uppercase fst-italic">"@Model.FullName"</strong>?</h3>
+<h5>This action can't be undone</h5>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+<form method="post" asp-action="DeleteUserConfirm" asp-route-id="@Model.Id" class="mt-3 col-2 d-flex flex-row">
+    <button type="submit" class="btn btn-outline col-2 btn-delete btn-sm">
+        <i class="fa-solid fa-trash-can"></i> Delete
+    </button>
+    <div>
+        @if (Model.RoleName == "Store Owner")
+        {
+            <a asp-action="ManageStoreOwner" class="btn btn-back text-center"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        }
+        else
+        {
+            <a asp-action="ManageCustomer" class="btn btn-back text-center"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        }
+    </div>
+</form>

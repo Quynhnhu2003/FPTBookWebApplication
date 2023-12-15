@@ -1,0 +1,39 @@
+﻿@model FPTBookWeb.ViewModels.EditUser
+@using Microsoft.AspNetCore.Identity
+<div>
+    
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2 mt-3">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class="col-sm-10 mt-3">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt class="col-sm-2 mt-3">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10 mt-3">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2 mt-3">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="col-sm-10 mt-3">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+    </dl>
+</div>
+<div class="col-6  d-flex flex-row">
+    <div class="col-3">
+        @if (Model.RoleName == "Store Owner")
+        {
+            <a asp-action="ManageStoreOwner" class="btn btn-back text-center"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        }
+        else
+        {
+            <a asp-action="ManageCustomer" class="btn btn-back text-center"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        }
+    </div>
+    
+</div>

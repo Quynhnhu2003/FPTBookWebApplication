@@ -32,8 +32,8 @@ namespace BookWeb.Controllers
         public IActionResult AddToCart(int id)
         {
             var selectedBook = GetBookById(id);
-           /* var userId = (await _userManager.GetUserAsync(HttpContext.User)).Id;*/
-            
+            /*var userId = (await _userManager.GetUserAsync(HttpContext.User)).Id;*/
+
             if (selectedBook != null)
             {
                 _cart.AddToCart(selectedBook, 1);

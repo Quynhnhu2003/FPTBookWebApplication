@@ -26,7 +26,7 @@ namespace FPTWeb.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
-            var fptbookContext = _context.OrderDetails.Include(o => o.Book).Where(s => s.Book.UserId == userId).Include(o => o.Order);
+            var fptbookContext = _context.OrderDetails.Include(o => o.Book).Where(s => s.Book.UserId == userId).Include(o => o.Order).Include(u=>u.User);
             return View(await fptbookContext.ToListAsync());
         }
 
@@ -41,7 +41,10 @@ namespace FPTWeb.Controllers
             var orderDetail = await _context.OrderDetails
                 .Include(o => o.Book)
                 .Include(o => o.Order)
+                .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.OrderDetailId == id);
+                       
+            
             if (orderDetail == null)
             {
                 return NotFound();
