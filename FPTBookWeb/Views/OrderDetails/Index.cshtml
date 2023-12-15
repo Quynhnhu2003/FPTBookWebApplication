@@ -24,9 +24,6 @@
             <th>
                 Order Date
             </th>
-            <th>
-                Customer
-            </th>
             <th>Edit</th>
             <th>Details</th>
             <th>Delete</th>
@@ -46,9 +43,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Order.OrderDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Order.CustomerId)
             </td>
             <td>
                     <a asp-action="Edit" asp-route-id="@item.OrderDetailId" class="col-1 btn btn-outline btn-edit btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>

@@ -7,22 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 using FPTBookWeb.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace FPTWeb.Controllers
 {
     public class OrderDetailsController : Controller
     {
         private readonly DbFptbookContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public OrderDetailsController(DbFptbookContext context)
+        public OrderDetailsController(DbFptbookContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager=userManager;
         }
 
         // GET: OrderDetails
         public async Task<IActionResult> Index()
         {
-            var fptbookContext = _context.OrderDetails.Include(o => o.Book).Include(o => o.Order);
+            var userId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
+            var fptbookContext = _context.OrderDetails.Include(o => o.Book).Where(s => s.Book.UserId == userId).Include(o => o.Order);
             return View(await fptbookContext.ToListAsync());
         }
 

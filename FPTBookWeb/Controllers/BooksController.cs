@@ -30,7 +30,8 @@ namespace FPTBookWeb.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var dbFptbookContext = _context.Books.Include(b => b.Author).Include(b => b.Category).Include(b => b.Publisher).Include(b => b.User);
+            var userId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
+            var dbFptbookContext = _context.Books.Include(b => b.Author).Include(b => b.Category).Include(b => b.Publisher).Include(b => b.User).Where(s => s.UserId == userId);
             return View(await dbFptbookContext.ToListAsync());
         }
 

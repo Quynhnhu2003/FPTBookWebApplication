@@ -111,12 +111,15 @@
             <div class="book-info">
                 <div class="price">
                     <div class="box">
+                        <label asp-for="BookPrice" class="control-label"></label>
                         <span>@Html.DisplayFor(model => model.BookPrice)</span>
                     </div>
                     <div class="box">
+                        <label asp-for="Quantity" class="control-label"></label>
                         <span>@Html.DisplayFor(model => model.Quantity)</span>
                     </div>
                     <div class="box">
+                        <label asp-for="PublishedYear" class="control-label"></label>
                         <span>@Html.DisplayFor(model => model.PublishedYear )</span>
                     </div>
                 </div>

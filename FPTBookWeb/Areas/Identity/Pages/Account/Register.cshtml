@@ -39,7 +39,7 @@
     <div class="mb-5 mt-3 col-4">
         <label asp-for="Input.ConfirmPassword">Role</label>
         <select name="roles" title="Role" class="select-role mt-4">
-            @if (roleManager.Roles.Count() == 0)
+            @* @if (roleManager.Roles.Count() == 0)
             {
                 <></>
             }
@@ -50,7 +50,10 @@
                     <option value="@role.Name">@role.Name</option>
                 }
 
-            }
+            } *@
+            <option value="Store Owner">Store Onwer</option>
+            <option value="Customer">Customer</option>
+            @* <option value="Admin">Admin</option> *@
         </select>
     </div>
     

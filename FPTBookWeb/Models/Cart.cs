@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace FPTBookWeb.Models
 {
@@ -12,10 +14,12 @@ namespace FPTBookWeb.Models
         public Cart(DbFptbookContext context)
         {
             _context = context;
+            
         }
 
         public string Id { get; set; }
         public List<CartItem> CartItems { get; set; }
+        public virtual User User { get; set; } = null!;
 
         public static Cart GetCart(IServiceProvider services)
         {
@@ -38,7 +42,7 @@ namespace FPTBookWeb.Models
         public void AddToCart(Book book, int quantity)
         {
             var cartItem = GetCartItem(book);
-
+            /*var userId = (await userManager.GetUserAsync(HttpContext.User)).Id;*/
             if (cartItem == null)
             {
                 cartItem = new CartItem

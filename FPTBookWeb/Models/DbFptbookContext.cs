@@ -39,7 +39,7 @@ public partial class DbFptbookContext : IdentityDbContext<User>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-6QHDM1R;Initial Catalog=DbFPTBook;User ID=sa;Password=123;Trust Server Certificate=True");
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder) //hỗ trợ build bảng theo design
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Author>(entity =>
@@ -68,7 +68,7 @@ public partial class DbFptbookContext : IdentityDbContext<User>
             entity.Property(e => e.BookId).HasColumnName("bookId");
             entity.Property(e => e.AuthorId).HasColumnName("authorId");
             entity.Property(e => e.BookDescription)
-                .HasMaxLength(200)
+                .HasMaxLength(1000)
                 .HasColumnName("bookDescription");
             entity.Property(e => e.BookImage1)
                 .HasMaxLength(50)

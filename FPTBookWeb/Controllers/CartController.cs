@@ -1,6 +1,8 @@
 ﻿using FPTBookWeb.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BookWeb.Controllers
 {
@@ -9,16 +11,19 @@ namespace BookWeb.Controllers
     {
         private readonly Cart _cart;
         private readonly DbFptbookContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public CartController(Cart cart, DbFptbookContext context)
+        public CartController(Cart cart, DbFptbookContext context, UserManager<User> userManager)
         {
             _cart = cart;
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
         {
             var items = _cart.GetAllCartItems();
+            
             _cart.CartItems = items;
 
             return View(_cart);
@@ -27,7 +32,8 @@ namespace BookWeb.Controllers
         public IActionResult AddToCart(int id)
         {
             var selectedBook = GetBookById(id);
-
+           /* var userId = (await _userManager.GetUserAsync(HttpContext.User)).Id;*/
+            
             if (selectedBook != null)
             {
                 _cart.AddToCart(selectedBook, 1);

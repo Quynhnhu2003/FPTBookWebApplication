@@ -18,6 +18,8 @@ public partial class User: IdentityUser
     
     public virtual ICollection<Book> Books { get; set; } = new List<Book>();
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+  /*  public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();*/
+    
     /* public int UserId { get; set; }
 
      public string UserEmail { get; set; } = null!;

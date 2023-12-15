@@ -52,7 +52,7 @@ namespace FPTBookWeb.Migrations
                     b.HasKey("AuthorId")
                         .HasName("PK__Authors__70DAFC145BAB714D");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("FPTBookWeb.Models.Book", b =>
@@ -225,7 +225,7 @@ namespace FPTBookWeb.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("FPTBookWeb.Models.OrderDetail", b =>
@@ -255,7 +255,7 @@ namespace FPTBookWeb.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("FPTBookWeb.Models.Publisher", b =>
